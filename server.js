@@ -58,7 +58,7 @@ isbns.forEach((i) => {
   for subsequent runs, re-comment it so that it runs only once!
   that said, there is a fail-safe to avoid duplicates below
   =======================================================*/
-  loadFromAPI(apiURL)
+  //loadFromAPI(apiURL)
 });
 
 
@@ -144,20 +144,57 @@ and your server is running do the following:
 /*Books
 ----------------------*/
 //1. Find books with fewer than 500 but more than 200 pages
+// Book.find({pages: {$lt:500, $gt:200}}, (err, result) => {
+//   if (err) throw err;
+//   console.log(result);
+// })
 
-//2. Find books whose rating is less than 5, and sort by the author's name
+// //2. Find books whose rating is less than 5, and sort by the author's name
+// let query = Book.find({rating: {$lt:5}}, (err, result) => {
+//   if (err) throw err;
+//   console.log(result);
+// });
+
+// query.sort({author: 'asc'});
 
 //3. Find all the Fiction books, skip the first 2, and display only 3 of them
+// let query = Book.find({genres: 'Fiction'}, (err, result) => {
+//   console.log(result);
+// });
 
+// query.skip(2).limit(3);
 
 /*People
 ----------------------*/
 //1. Find all the people who are tall (>180) AND rich (>30000)
+// Person.find({height: {$gt:180}, salary: {$gt:30000}}, (err, result) => {
+//   if (err) throw err;
+//   console.log(result);
+// });
 
 //2. Find all the people who are tall (>180) OR rich (>30000)
+// Person.find({$or: [{height: {$gt:180}}, {salary: {$gt:30000}}]}, (err, result) => {
+//   if (err) throw err;
+//   console.log(result);
+// });
 
 //3. Find all the people who have grey hair or eyes, and who's weight (<70)
+// Person.find({$and: [{$or: [ {eyes:'grey'}, {hair:'grey'} ]}, {weight: {$gt:70}}]}, (err, result) => {
+//   if (err) throw err;
+//   console.log(result);
+// });
 
 //4. Find people who have at least 1 kid with grey hair
+// let query = Person.find({numKids:{$gt:0}}, (err, result) => {
+//   console.log(result);
+// });
+
+// query.find({'kids.hair': {$in: ['grey']}});
 
 //5. Find all the people who have at least one kid who's weight is >100 and themselves' weight is >100
+let query = Person.find({numKids:{$gt:0}}, (err, result) => {
+  console.log(result);
+});
+
+query.and([ {'kids.weight': {$gt:100}}, {weight: {$gt:100}} ]);
+
